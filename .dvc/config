@@ -1,0 +1,9 @@
+[core]
+    remote = myremote
+['remote "s3remote"']
+    url = s3://dvc/
+['remote "myremote"']
+    url = s3://facerec/dvc-storage
+    endpointurl = http://128.199.230.242:9000
+    access_key_id = SindikaMinio
+    secret_access_key = "SindikaMinio#123"

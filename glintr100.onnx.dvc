@@ -1,0 +1,6 @@
+outs:
+- md5: 6c9c0e9a8eff9edcc7c70a710c9272a4
+  size: 260694151
+  isexec: true
+  hash: md5
+  path: glintr100.onnx

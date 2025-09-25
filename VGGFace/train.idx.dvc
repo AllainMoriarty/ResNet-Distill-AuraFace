@@ -1,0 +1,6 @@
+outs:
+- md5: b35a290b697f76fe084ce723a147b0d8
+  size: 59964669
+  isexec: true
+  hash: md5
+  path: train.idx

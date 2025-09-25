@@ -26,6 +26,7 @@ env/
 # DVC cache only (ini yang di-ignore)
 .dvc/cache/
 .dvc/tmp/
+# .dvc/config  # uncomment jika tidak ingin commit konfigurasi remote
 
 # MLflow
 mlruns/
@@ -53,6 +54,8 @@ logs/
 *.log
 
 # Dataset cache / temporary files
+faces_*/**/
+!faces_*/**/*.dvc
 ms1m-*
 *.tmp
 *.temp
@@ -83,9 +86,9 @@ results/
 # Specific files from your repo
 train.rec
 train.idx
+wait-for-it.sh
 
-# Exception: File .dvc metadata harus di-commit
-!*.dvc
-!faces_*/**/*.dvc
+# Exception: DVC files harus di-commit
 !faces_vgg_112x112/*.dvc
 !faces_vgg_112x112/**/*.dvc
+!*.dvc

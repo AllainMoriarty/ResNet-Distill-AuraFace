@@ -1,0 +1,6 @@
+outs:
+- md5: 95d07dc7b94c6b5560c66dc2fdde5eb8
+  size: 18795209452
+  isexec: true
+  hash: md5
+  path: train.rec

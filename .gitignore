@@ -23,8 +23,12 @@ env/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# DVC (jika pakai)
-.dvc/
+# DVC cache (ini yang harus di-ignore)
+.dvc/cache/
+.dvc/tmp/
+
+# Tapi file .dvc (metadata) TIDAK di-ignore
+!.dvc/
 
 # MLflow
 mlruns/

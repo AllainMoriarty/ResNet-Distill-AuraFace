@@ -1,0 +1,78 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: mlflow_s3
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ':9001' --address ':9000'
+    environment:
+      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mc:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    container_name: mc
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    command: >
+      /bin/sh -c "
+      sleep 10 &&
+      mc alias set minio http://minio:9000 ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} &&
+      mc mb minio/mlflow --ignore-existing &&
+      exit 0
+      "
+
+  db:
+    image: postgres:17
+    container_name: mlflow_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}  
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mlflow:
+    build: ./mlflow
+    image: mlflow_server
+    container_name: mlflow_server
+    depends_on:
+      - mc
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      - MLFLOW_S3_ENDPOINT_URL=http://minio:9000  # Akses dari dalam container
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=us-east-1
+    command: >
+      mlflow server 
+      --backend-store-uri postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DATABASE}
+      --default-artifact-root s3://mlflow/
+      --host 0.0.0.0
+      --port 5000
+
+volumes:
+  minio_data:
+  dbdata:

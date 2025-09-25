@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+.pyenv/
+.python-version
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# DVC (jika pakai)
+.dvc/
+
+# MLflow
+mlruns/
+mlflow/
+
+# Data files (biasanya besar, dihandle DVC atau MinIO)
+*.rec
+*.idx
+*.onnx
+*.bin
+*.pth
+*.pt
+*.h5
+*.hdf5
+*.npz
+*.npy
+
+# Model weights & checkpoints
+models/
+checkpoints/
+weights/
+
+# Logs
+logs/
+*.log
+
+# Dataset cache / temporary files
+faces_*
+ms1m-*
+*.tmp
+*.temp
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Docker
+docker-compose.override.yml
+.dockerenv
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Output dari script (misalnya convert.ipynb output)
+convert_output/
+output/
+results/
+
+# File sementara
+*.lock
+*~
+
+# Specific files from your repo
+train.rec
+train.idx
+wait-for-it.sh  # optional: jika hanya untuk setup, bisa di-ignore juga

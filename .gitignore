@@ -83,6 +83,7 @@ results/
 # Specific files from your repo
 train.rec
 train.idx
+VGGFace/property
 
 # Exception: File .dvc metadata harus di-commit
 !*.dvc

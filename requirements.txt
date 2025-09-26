@@ -3,7 +3,7 @@ ipywidgets
 jupyter
 torch
 torchvision
-onnxruntime
+onnxruntime-gpu
 numpy
 tqdm
 onnx
